@@ -1,1 +1,296 @@
-/* место для вашего кода */
+/* ========================================= */
+/* ШАГ 1: ОБЩИЙ ЛЕЙАУТ (КАРКАС)              */
+/* ========================================= */
+
+.page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end; /* Прижимаем к низу */
+  width: 1140px;
+  height: 534px;
+  gap: 30px;
+}
+
+.result {
+  flex-grow: 1; /* Левая колонка занимает оставшееся место */
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.content__details {
+  display: flex;
+  flex-direction: column;
+  width: 390px; /* Ширина правой колонки */
+  flex-shrink: 0;
+  height: 100%;
+  gap: 30px; /* Расстояние между заголовком и списком */
+}
+
+.content__list-container {
+  flex-grow: 1;
+  overflow-y: auto; /* Включаем вертикальный скролл */
+  display: flex;
+  flex-direction: column;
+  gap: 30px; /* Отступ между списком и кнопкой "Показать еще" */
+position: relative;
+}
+
+.search-form {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+}
+
+/* ========================================= */
+/* ШАГ 2: УТОЧНЕНИЕ РАЗМЕРОВ                 */
+/* ========================================= */
+
+.result__video-container {
+  width: 100%;
+  height: 386px; /* ВАЖНО: Замените на высоту из Figma! */
+  margin-bottom: 30px; /* Отступ снизу */
+  position: relative;
+}
+
+.result__video-container video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.content__list {
+  display: flex;
+  flex-direction: column;
+  gap: 30px; /* Отступ между карточками */
+}
+
+.content__video-card {
+  display: flex;
+  align-items: flex-start;
+}
+
+.content__video-card-thumbnail {
+  height: 100px;    /* Замените на высоту из Figma! */
+  min-width: 140px; /* Замените на ширину из Figma! */
+  object-fit: cover;
+  object-position: center;
+}
+
+.content__video-card-description-container {
+  flex-grow: 1; /* Занимает всё оставшееся место */
+}
+
+/* ========================================= */
+/* ШАГ 3: СТИЛИ ТЕКСТОВ                      */
+/* ========================================= */
+
+.search-form__fieldset-title {
+  font-weight: 700;    /* Замените на вес из Figma */
+  font-size: 18px;     /* Замените на размер из Figma */
+  margin-bottom: 10px; /* Замените на отступ из Figma */
+}
+
+/* Оформление акцента в заголовке */
+.content__accent {
+  /* color: #XXXXXX; Укажите цвет из макета, если он отличается */
+}
+
+/* Ссылка-карточка (убираем подчеркивание) */
+.content__card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+/* Заголовок видео-карточки (обрезка троеточием) */
+.content__video-card-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Описание видео-карточки (обрезка по строкам) */
+.content__video-card-description {
+  line-height: 18px; /* ВАЖНО: Сверьте с Figma! */
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Максимальное количество строк */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ========================================= */
+/* ШАГ 4: ФОРМЫ И ЧЕКБОКСЫ                   */
+/* ========================================= */
+
+/* Паттерн для скрытия элементов */
+.visually-hidden {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.search-form__fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.search-form__checkbox-list {
+  display: flex;
+  gap: 15px; /* Замените на отступ из Figma */
+}
+
+.search-form__label {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  gap: 8px; /* Отступ между чекбоксом и текстом */
+  cursor: pointer;
+}
+
+.search-form__textfield {
+  appearance: none;
+  border: none;
+  border-top: 1px solid #fff;
+  border-bottom: 1px solid #fff;
+  background-color: transparent;
+  color: #fff;
+  font-family: inherit;
+  font-size: inherit;
+  height: 30px; /* Замените на высоту из Figma */
+  width: 100%;  /* Или конкретная ширина */
+}
+
+.search-form__textfield::placeholder {
+  color: rgb(255 255 255 / 0.7);
+}
+
+.search-form__textfield:focus {
+  outline: none;
+}
+
+/* Кастомный квадратик чекбокса */
+.search-form__pseudo-checkbox {
+  width: 20px;  /* Размеры из Figma */
+  height: 20px;
+  border: 1px solid #fff;
+  padding: 1px;
+}
+
+/* Внутренняя заливка чекбокса */
+.search-form__pseudo-checkbox::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  opacity: 0; /* По умолчанию скрыта */
+}
+
+/* Когда чекбокс выбран, показываем заливку */
+.search-form__checkbox:checked + .search-form__pseudo-checkbox::after {
+  opacity: 1;
+}
+
+/* Подчеркивание текста при наведении на лейбл */
+.search-form__label:hover .search-form__label-text {
+  text-decoration: underline;
+}
+
+/* Обводка чекбокса при фокусе */
+.search-form__checkbox:focus-visible + .search-form__pseudo-checkbox {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+/* ========================================= */
+/* ШАГ 5: КНОПКИ                             */
+/* ========================================= */
+
+.button {
+  border: 1px solid #fff; /* Цвет из Figma */
+  color: #fff;            /* Цвет из Figma */
+  font-family: inherit;
+  font-size: inherit;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.search-form__submit-button {
+  width: 150px; /* Ширина из Figma */
+  height: 40px; /* Высота из Figma */
+  align-self: flex-end; /* Прижимаем в конец формы */
+}
+
+.more-button {
+  width: 100%; /* Кнопка на всю ширину контейнера */
+  height: 40px; /* Высота из Figma */
+}
+
+.button:hover {
+  text-decoration: underline;
+}
+
+.button:active {
+  background-color: #fff; /* Цвет активной кнопки из макета */
+  color: #000;
+}
+
+.button:focus {
+  outline: none;
+}
+
+.button:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+/* ========================================= */
+/* ШАГ 6 и 7: СОСТОЯНИЯ КАРТОЧЕК И КЛИКАБЕЛЬНОСТЬ */
+/* ========================================= */
+
+/* Текущая выбранная карточка */
+.content__card-link_current {
+  background-color: #333; /* Цвет фона из Figma */
+}
+
+/* Активная карточка (при клике) */
+.content__card-link:active {
+  background-color: #555; /* Цвет из Figma */
+}
+
+/* Подчеркивание текста карточки при наведении */
+.content__card-link:hover .content__video-card-title,
+.content__card-link:hover .content__video-card-description {
+  text-decoration: underline;
+}
+
+/* Обводки для карточек при фокусе */
+.content__card-link:focus {
+  outline: none;
+}
+
+.content__card-link:focus-visible {
+  outline: 2px solid #fff;
+}
+
+/* Отступы для элементов списка, чтобы обводка не прилипала */
+.content__list-item {
+  padding-left: 3px;
+  padding-right: 3px;
+}
